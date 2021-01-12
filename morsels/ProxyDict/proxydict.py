@@ -56,3 +56,24 @@ class ProxyDict:
         raise TypeError('Does not support item assignment.')
 
 
+from collections.abc import Mapping
+
+
+class ProxyDict(Mapping):
+    def __init__(self, mapping):
+        self._map = mapping
+
+    def __getitem__(self, key):
+        return self._map[key]
+
+    def __len__(self):
+        return self._map.__len__()
+
+    def __iter__(self):
+        yield from self._map
+
+    def __repr__(self):
+        return f'ProxyDict({str(self._map)})'
+
+data = dict(a=1, b=2)
+pd = ProxyDict(data)
